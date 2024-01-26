@@ -1,0 +1,35 @@
+package coreFunctions;
+
+import java.util.ArrayList;
+
+public class SequencePrediction {
+	
+	public static ArrayList<Long> getHighIntensityMasses(Long[] masses, Peaks peaks) {
+		ArrayList<Long> targetMasses = new ArrayList<Long>();
+		for(long mass:masses) {
+			double intensity = peaks.getPeaks().get(mass);
+			if(intensity >= 10000) {
+				targetMasses.add(mass);
+			}
+		}
+		return targetMasses;
+	}
+	
+	public static ArrayList<Long> getMassDifferences(ArrayList<Long> targetMasses){
+		ArrayList<Long> massDifferences = new ArrayList<Long>();
+		for(int i = 0;i>targetMasses.size();i++) {
+			//if our index is less than two from the end our mass list, we check both mono and dipeptide mass differences
+			if(i > targetMasses.size() - 2) {
+				//getting the mass difference for the current peak and its neighbor
+				long checkOne = Math.abs(targetMasses.get(i) - targetMasses.get(i+1));
+				massDifferences.add(checkOne);
+				//getting the mass difference for the current peak and the peak one away from it
+				long checkTwo = Math.abs(targetMasses.get(i) - targetMasses.get(i + 2));
+			
+			
+		}
+	}
+	
+	
+
+}

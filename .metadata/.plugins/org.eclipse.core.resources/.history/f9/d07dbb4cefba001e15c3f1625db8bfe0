@@ -1,0 +1,17 @@
+package coreFunctions;
+
+import java.util.ArrayList;
+
+public class SequencePrediction {
+	
+	public static ArrayList<Long> getHighIntensityMasses(Long[] masses, Peaks peaks) {
+		ArrayList<Long> targetMasses = new ArrayList<Long>();
+		for(long mass:masses) {
+			double intensity = peaks.getPeaks().get(mass);
+			if(intensity >= 10000) {
+				targetMasses.add(mass);
+			}
+		}
+	}
+
+}

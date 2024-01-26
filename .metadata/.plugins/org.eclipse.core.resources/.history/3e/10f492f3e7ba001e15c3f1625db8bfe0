@@ -1,0 +1,28 @@
+package coreFunctions;
+
+import java.util.*;
+
+public class Peaks {
+	final HashMap<Long, Double> peaks;
+	
+	public Peaks(HashMap<Long, Double> peaks) {
+		super();
+		this.peaks = peaks;
+	}
+	
+	public HashMap<Long, Double> getPeaks(){
+		return peaks;
+	}
+	
+	public static Peaks getPeaks(Spectrum spec){
+		HashMap<Long, Double> peaks = new HashMap<Long, Double>();
+		for(int i = 0; i < spec.getMasses().length;i++) {
+			Long currentMass = spec.getMasses()[i];
+			Double currentIntensity = spec.getIntensities()[i];
+		}
+		
+	}
+	
+	
+
+}

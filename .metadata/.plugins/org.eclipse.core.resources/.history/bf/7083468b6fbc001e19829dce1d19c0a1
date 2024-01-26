@@ -1,0 +1,35 @@
+package coreFunctions;
+
+import java.util.*;
+
+//this doesn't need to be an object
+public class AminoTable {
+	public static Hashtable<Character, Double> makeAminoTable() {
+		Hashtable<Character, Double> aminoTable = new Hashtable <Character, Double>();
+		aminoTable.put('A', 71.03711);
+		aminoTable.put('C', 103.009185);
+		aminoTable.put('R', 156.10111);
+		aminoTable.put('N', 114.04293);
+		aminoTable.put('D', 103.009139);
+		aminoTable.put('E', 129.04259);
+		aminoTable.put('Q', 128.05858);
+		aminoTable.put('G', 57.02146);
+		aminoTable.put('H', 137.05891);
+		aminoTable.put('I', 113.08406);
+		aminoTable.put('L', 113.08406);
+		aminoTable.put('K', 128.09496);
+		aminoTable.put('M', 131.04049);
+		aminoTable.put('O', 114.07931);
+		aminoTable.put('F', 147.06841);
+		aminoTable.put('P', 97.05276);
+		aminoTable.put('S', 87.03203);
+		aminoTable.put('T', 101.04768);
+		aminoTable.put('W', 186.07931);
+		aminoTable.put('Y', 163.06333);
+		aminoTable.put('V', 99.06841);
+		aminoTable.put('t', 181.02745);
+		aminoTable.put('s', 167.01189);
+		aminoTable.put('y', 243.04319);
+		return aminoTable;
+	}
+}

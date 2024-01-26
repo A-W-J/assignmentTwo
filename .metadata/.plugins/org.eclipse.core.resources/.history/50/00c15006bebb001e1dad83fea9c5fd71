@@ -1,0 +1,140 @@
+package coreFunctions;
+
+import java.util.Hashtable;
+import java.io.IOException;
+import java.lang.Math;
+
+public class FragmentMasses {
+	//let's add some more information here
+	final long[] bIons;
+	final long[] yIons;
+	//for this assignment, we need to consider a ions and 2H+ ions
+	final long[] aIons;
+	final long[] bIonsPlus;
+	final long[] yIonsPlus;
+	
+	public FragmentMasses(long[] bIons, long[] yIons, long[] aIons, long[] bIonsPlus, long[] yIonsPlus) {
+		super();
+		this.bIons = bIons;
+		this.yIons = yIons;
+		this.aIons = aIons;
+		this.bIonsPlus = bIonsPlus;
+		this.yIonsPlus = yIonsPlus;
+	}
+	
+	public long[] getbIons() {
+		return bIons;
+	}
+
+	public long[] getyIons() {
+		return yIons;
+	}
+	
+	public long[] getaIons() {
+		return aIons;
+	}
+	
+	public long[] getbIonsPlus() {
+		return bIonsPlus;
+	}
+	
+	public long[] getyIonsPlus() {
+		return yIonsPlus;
+	}
+
+	public static String[] buildFragments(String sequence){
+		String[] fragmentList = new String[sequence.length()];
+		int counter = 0;
+		for (int i = 1; i <= sequence.length(); i++) {
+			String fragment = sequence.substring(0, i);
+			fragmentList[counter] = fragment;
+			counter = counter + 1;
+		}
+		return fragmentList;
+	}
+	
+	public static Long getFragMass(String frag, boolean flag){
+		//loading in the table of amino acids
+		//AminoTable aminoTable = AminoTable.makeAminoLookup();
+		//HashMaps are normally faster than Hashtables
+		Hashtable<Character, Double> aminoTable = AminoTable.makeAminoTable();
+		//we can loop over the string
+		//instead of summing a list, we can just add each residue mass
+		double fragMass = 0;
+		for(char residue:frag.toCharArray()) {
+			double residueMass = aminoTable.get(residue);
+			fragMass = fragMass + residueMass;
+		}
+		Long roundedMass = Math.round(fragMass);
+		if(flag == true) {
+			roundedMass += 19;
+			return roundedMass;
+		}
+		roundedMass += 1;
+		return roundedMass;
+	}
+	
+	public static long[] buildMassList(String sequence, boolean flag) {
+		//this will be our output array
+		long[] fragmentMassList = new long[sequence.length()]; 
+		String[] fragmentList = FragmentMasses.buildFragments(sequence);
+		int counter = 0;
+		for(String frag:fragmentList) {
+			long mass = FragmentMasses.getFragMass(frag, flag);
+			fragmentMassList[counter] = mass;
+			counter = counter + 1;
+		}
+		return fragmentMassList;
+	}
+	
+	//we'll add more methods to get the additional masses that we need
+	public static long[] addHs(long[] massList) {
+		long[] massListPlus = new long[massList.length];
+		int counter = 0;
+		for(long mass:massList) {
+			long massPlus = (mass + 2)/2;
+			massListPlus[counter] = massPlus;
+			counter++;
+		}
+		return massListPlus;
+	}
+	
+	public static long[] getAIons(long[] bIons) {
+		long[] aIons = new long[bIons.length];
+		int counter = 0;
+		for(long bIon:bIons) {
+			long aIon = bIon - 28;
+			aIons[counter] = aIon;
+			counter++;
+		}
+		return aIons;
+	}
+	
+	//this is highly inefficient; look for a better method of this process
+	public static String seqReverse(String forwardSeq) {
+		String nstr = "";
+		char ch;
+		for (int i = 0; i < forwardSeq.length(); i++) {
+			ch = forwardSeq.charAt(i);
+			nstr = ch + nstr;
+		}
+		return nstr;
+	}
+	
+	public static FragmentMasses dataAssembly(String sequence) throws IOException{
+		//here, the boolean indicates whether or not we have a b-ion or a y-ion,
+		//this dictates whether or not we add +18 or +1 to the mass
+		//b-ion series
+		boolean bFlag = false;
+		long[] bIons = FragmentMasses.buildMassList(sequence, bFlag);
+		long[] bIonsPlus = FragmentMasses.addHs(bIons);
+		//y-ion series
+		String revSequence = FragmentMasses.seqReverse(sequence);
+		boolean yFlag = true;
+		long[] yIons = FragmentMasses.buildMassList(revSequence, yFlag);
+		long[] yIonsPlus = FragmentMasses.addHs(yIons);
+		//a-ion series
+		long[] aIons = FragmentMasses.getAIons(bIons);
+		return new FragmentMasses(bIons, yIons, aIons, bIonsPlus, yIonsPlus);
+	}
+}

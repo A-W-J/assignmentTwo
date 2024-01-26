@@ -1,0 +1,33 @@
+package coreFunctions;
+
+import java.util.ArrayList;
+
+public class Matches {
+	final Long[] matchIdentities;
+	public Matches(Long[] matchIdentities) {
+		super();
+		this.matchIdentities = matchIdentities;
+	}
+	public Long[] getMatchIdentities() {
+		return matchIdentities;
+	}
+	
+	public static Matches buildMatchObject(long[] predictions, long[] spectrumMasses) {
+		ArrayList<Long> tempMatchIdentities = new ArrayList<Long>();
+		//we're having a hard time implementing binary searches on decimal values; because time is
+		//rather limited, we'll implement a linear search
+		for(long predicted:predictions) {
+			//int dummy = Arrays.binarySearch(spectrumMasses, predicted);
+			for(long spectrumMass:spectrumMasses) {
+				long diff = Math.abs(predicted - spectrumMass);
+				if(diff < 1) {
+					tempMatchIdentities.add(predicted);
+				}
+			}
+		}
+		Long[] matchIdentities = tempMatchIdentities.toArray(new Long[0]);
+		//Long[] matchIdentities = tempMatchIdentities.toArray(new Long[0]);
+		return new Matches(matchIdentities);
+	}
+
+}

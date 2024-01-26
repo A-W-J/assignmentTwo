@@ -1,0 +1,13 @@
+package coreFunctions;
+
+import java.io.IOException;
+
+public class MainClass {
+
+	public static void main(String[] args) throws IOException {
+		String specFile = "C:\\Users\\alexw\\Documents\\Ohio State\\Searle Lab\\Projects\\assignmentTwo\\spectrum.txt";
+		Spectrum spec = Spectrum.readSpectrum(specFile);
+
+	}
+
+}

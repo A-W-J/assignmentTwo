@@ -1,0 +1,36 @@
+package coreFunctions;
+
+import java.io.IOException;
+
+public class MainClass {
+
+	public static void main(String[] args) throws IOException {
+		String specFile = "C:\\Users\\alexw\\Documents\\Ohio State\\Searle Lab\\Projects\\assignmentTwo\\spec.txt";
+		Spectrum spec = Spectrum.readSpectrum(specFile);
+		String sequence = "HELTEISNVDVETQSGK";
+		FragmentMasses masses = FragmentMasses.dataAssembly(sequence);
+		//we'll create several different match objects for each type of peak
+		Matches bMatches = Matches.buildMatchObject(masses.getbIons(), spec.getMasses());
+		Matches yMatches = Matches.buildMatchObject(masses.getyIons(), spec.getMasses());
+		Matches aMatches = Matches.buildMatchObject(masses.getaIons(), spec.getMasses());
+		Matches bMatchesPlus = Matches.buildMatchObject(masses.getbIonsPlus(), spec.getMasses());
+		Matches yMatchesPlus = Matches.buildMatchObject(masses.getyIonsPlus(), spec.getMasses());
+		//reporting the results
+		for(long match:bMatches.getMatchIdentities()) {
+			System.out.println("b ion" + "     " + match);
+		}
+		for(long match:yMatches.getMatchIdentities()) {
+			System.out.println("y ion" + "     " + match);
+		}
+		for(long match:aMatches.getMatchIdentities()) {
+			System.out.println("a ion" + "     " + match);
+		}
+		for(long match:bMatchesPlus.getMatchIdentities()) {
+			System.out.println("b ion 2H+" + "     " + match);
+		}
+		for(long match:yMatchesPlus.getMatchIdentities()) {
+			System.out.println("y ion 2H+" + "     " + match);
+		}
+	}
+
+}
